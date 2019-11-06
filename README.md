@@ -13,6 +13,6 @@ PAC文件的代理要改成NG的局域网IP地址，端口要改写成本工具�
 var proxy = "SOCKS5 192.168.1.5:7070; SOCKS 192.168.1.5:7070; DIRECT;";
 
 在局域网其他Mac上，配置自动代理， URL填写:
- http://192.168.1.5/gofwd.js
+ http://192.168.1.5:7072/gofwd.js
 
 PAC文件是一个纯文本js脚本文件，从NG的自动代理配置的URL直接下载存成gofwd.js就可以了。

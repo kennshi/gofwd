@@ -1,8 +1,8 @@
 package main
 
 import (
-    "fmt"
-    "log"
+	"fmt"
+	"log"
 	"net"
 	"net/http"
 	"io"
@@ -78,4 +78,6 @@ func handleConnection(fromcon net.Conn, toaddr string) {
 	go handler(toCon,fromcon)
 	go handler(fromcon,toCon)
 	<- done
+	<- done
+	fmt.Println("quit handleConnection...")
 }
