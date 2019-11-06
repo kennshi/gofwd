@@ -15,31 +15,29 @@ func main() {
 		http.ListenAndServe(":7072", http.FileServer(http.Dir(".")))
 		fmt.Println("End Pac server..")
 	}()
-	
 	fmt.Println("Start Sock5 server..")
-    var fromport, toport int = 7070, 1086
-    fromaddr := fmt.Sprintf("0.0.0.0:%d", fromport)
-    toaddr := fmt.Sprintf("127.0.0.1:%d", toport)
+	var fromport, toport int = 7070, 1086
+	fromaddr := fmt.Sprintf("0.0.0.0:%d", fromport)
+	toaddr := fmt.Sprintf("127.0.0.1:%d", toport)
+	
+	fromlistener, err := net.Listen("tcp", fromaddr)
 
-    fromlistener, err := net.Listen("tcp", fromaddr)
+	if err != nil {
+		log.Fatal("Unable to listen on: %s, error: %s\n", fromaddr, err.Error())
+	}
+	defer fromlistener.Close()
 
-    if err != nil {
-        log.Fatal("Unable to listen on: %s, error: %s\n", fromaddr, err.Error())
-    }
-    defer fromlistener.Close()
-
-    for {
+	for {
 		//fmt.Println("wait for  connect:")
-        fromcon, err := fromlistener.Accept()
-        if err != nil {
-            fmt.Printf("Unable to accept a request, error: %s\n", err.Error())
-        } else {
-            //fmt.Println("new connect:" + fromcon.RemoteAddr().String())
-        }
+		fromcon, err := fromlistener.Accept()
+		if err != nil {
+			fmt.Printf("Unable to accept a request, error: %s\n", err.Error())
+		} else {
+			//fmt.Println("new connect:" + fromcon.RemoteAddr().String())
+		}
 
-        go handleConnection(fromcon, toaddr)
-
-    }
+		go handleConnection(fromcon, toaddr)
+	}
 
 }
 
